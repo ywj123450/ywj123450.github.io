@@ -98,7 +98,7 @@
 2016.8.？ 遇到问题：燃烧过程涉及到空燃比，需要知道质量流">
 <meta property="og:image" content="http://yoursite.com/images/4/1.png">
 <meta property="og:image" content="http://yoursite.com/images/4/2.png">
-<meta property="og:updated_time" content="2016-09-14T12:08:35.776Z">
+<meta property="og:updated_time" content="2016-09-21T01:02:45.430Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="用fluent模拟内循环床气化燃烧（调试过程记录）">
 <meta name="twitter:description" content="模拟对象为文献Combined gasiﬁcation of coal and biomass in internal circulating ﬂuidized bed[1]中的内循环气化炉。[1]http://www.sciencedirect.com/science/article/pii/S037838201100395X
@@ -333,6 +333,14 @@
 <hr>
 <ul>
 <li>2016.8.23 先总结一下前两天的。陆陆续续去了好几次，调的过程中发现，时间步长不是越小收敛效果越好。刚开始步长是1e-6，连续性下不去，然后我偶然发现把时间步长增加到1e-5反而能够很好收敛。目前看来，暂时能够比较稳定的计算，但是比较头疼的是，由于反应比较多，有两个网格温度超限，而且每一步残差都会飞到很高，后果就是没准哪一步就由于残差弹的太高导致程序死掉，但是继续算还是可以算的。目前就是这个状态，明天拿个细点的网格去算算试试。看能不能稍微好点。</li>
+</ul>
+<hr>
+<ul>
+<li>2016.9.19 这回重新调整了一下case，把碳单独看成一相，这样能减少反应方程的数目。前期调残差也废了点劲，主要还是减小步长，然后根据不收敛的变量找到对应松弛因子，减小之。比较头疼的是算到14秒的时候，突然发散了，很是奇怪，按说基本上产物都比较稳定了，不应该发散才对。多半还是反应的原因，然后先把均相反应先全部关上，依次打开，发现是碳氧化反应导致的，然后把这个反应速率先减少10倍，试了试，发现可以稳定计算，但是影响产物的量，先这样计算一段时间试试吧。</li>
+</ul>
+<hr>
+<ul>
+<li>2016.9.21 真的是一个问题一夜回到解放前。之前通的是300k的低温气体，流化还不错，后来改为1073k以后，死活流化不起来了。尝试了一下把气体密度改为volume-weighted，这回可以了。而且，发现沙子流化不起来的话，会阻碍气体的热量传递，高温区只有低端入口一点点。</li>
 </ul>
 
       
